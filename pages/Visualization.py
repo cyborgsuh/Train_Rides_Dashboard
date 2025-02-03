@@ -40,7 +40,6 @@ def payment_method_distribution(df):
 
 
 
-# Bar chart for delayed journeys by Departure Station
 def delays_by_station(df):
     delayed_df = df[df['Journey Status'] == 'Delayed']
     delay_by_station = delayed_df.groupby('Departure Station').size().reset_index(name='Count')
@@ -49,7 +48,7 @@ def delays_by_station(df):
                  labels={'Departure Station': 'Station', 'Count': 'Number of Delays'},
                  color='Count',
                  color_continuous_scale=['#ead7bb','#D1B7A1' ])
-    fig.update_layout(xaxis={'categoryorder': 'total descending'},coloraxis_showscale=False,)  # Sort by delay count
+    fig.update_layout(xaxis={'categoryorder': 'total descending'},coloraxis_showscale=False,)  
     fig.update_layout(
         title={
             'font': {'size': 24},  
@@ -59,7 +58,6 @@ def delays_by_station(df):
     )
     return fig
 
-# Line chart for refund request trends over time
 def refund_request_trends(df):
     refund_trends = df[df['Refund Request'] != 'No'].groupby('Date of Purchase').size().reset_index(name='Count')
     fig = px.line(refund_trends, x='Date of Purchase', y='Count',
@@ -68,15 +66,15 @@ def refund_request_trends(df):
                   line_shape='spline',
                   color_discrete_sequence=['#D1B7A1'],
                   )
-    fig.update_traces(mode='lines+markers')  # Add markers to the line chart
+    fig.update_traces(mode='lines+markers')  
     fig.update_layout(
         title={
             'font': {'size': 24},  
             'x': 0.5,  
             'xanchor': 'center'  
         },
-        height=917,  # Match the combined height of the two charts in col3
-        margin=dict(t=300, b=300,l=20,r=20),  # Adjust margins
+        height=917,  
+        margin=dict(t=300, b=300,l=20,r=20),  
 
     )
     return fig
@@ -91,7 +89,7 @@ def ticket_purchase_density(df):
         z=heatmap_pivot.values,
         x=heatmap_pivot.columns,
         y=heatmap_pivot.index,
-        colorscale=[[0, '#D1B7A1'], [0.2, '#ead7bb'], [0.4, '#F5CBA7'], [0.6, '#FAD02E'], [1, '#F28D35']],  # sandy theme colors
+        colorscale=[[0, '#D1B7A1'], [0.2, '#ead7bb'], [0.4, '#F5CBA7'], [0.6, '#FAD02E'], [1, '#F28D35']],  
         colorbar=dict(title='Ticket Count')
     ))
 
@@ -122,7 +120,6 @@ def ticket_purchase_density(df):
     )
     return fig
 
-# Bar chart for ticket type distribution by railcard holders
 def ticket_type_distribution_by_railcard(df):
     railcard_distribution = df.groupby(['Railcard', 'Ticket Type']).size().reset_index(name='Ticket Count')
     fig = px.bar(railcard_distribution, x='Railcard', y='Ticket Count', color='Ticket Type',
@@ -139,19 +136,20 @@ def ticket_type_distribution_by_railcard(df):
     return fig
 
 
-# Create Streamlit page layout
 st.title('Ticket Data Insights')
 
 
-total_tickets_sold = df.shape[0]  # Total number of tickets
-total_refunds = df[df['Refund Request'] != 'No'].shape[0]  # Count of refund requests
-total_delays = df[df['Journey Status'] == 'Delayed'].shape[0]  # Count of delayed journeys
-refund_rate = (total_refunds / total_tickets_sold) * 100  # Refund rate as a percentage
+total_tickets_sold = df.shape[0]  
+total_refunds = df[df['Refund Request'] != 'No'].shape[0]  
+total_delays = df[df['Journey Status'] == 'Delayed'].shape[0]  
+refund_rate = (total_refunds / total_tickets_sold) * 100  
 
-# Create 4 columns for the metrics cards
+
+
+
 col1, col2, col3, col4 = st.columns(4)
 
-# Column 1: Total Tickets Sold
+
 with col1:
     ui.metric_card(
         title="Total Tickets Sold",
@@ -159,7 +157,6 @@ with col1:
         description="Overall Sales in Last Month"
     )
 
-# Column 2: Total Refunds
 with col2:
     ui.metric_card(
         title="Total Refunds",
@@ -167,7 +164,6 @@ with col2:
         description="Refund Requests Processed"
     )
 
-# Column 3: Total Delays
 with col3:
     ui.metric_card(
         title="Total Delays",
@@ -175,7 +171,6 @@ with col3:
         description="Delayed Journeys"
     )
 
-# Column 4: Refund Rate
 with col4:
     ui.metric_card(
         title="Refund Rate",
@@ -195,7 +190,6 @@ with col2:
         st.plotly_chart(payment_method_distribution(df))
 
 
-# Second row layout (Ticket Type Distribution and Delays by Station)
 col3, col4 = st.columns([2, 4])
 
 with col3:
@@ -205,10 +199,9 @@ with col3:
 
 with col4:
     with st.container(border=True):
-        st.plotly_chart(refund_request_trends(df), use_container_width=True)  # This ensures it takes full width
+        st.plotly_chart(refund_request_trends(df), use_container_width=True)  
 
 
-# Third row layout (Heatmap)
 with st.container(border=True):
     st.plotly_chart(ticket_purchase_density(df), use_container_width=True)
 

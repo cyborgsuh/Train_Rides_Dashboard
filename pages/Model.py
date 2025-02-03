@@ -9,16 +9,14 @@ from keras.src.legacy.saving import legacy_h5_format
 
 st.set_page_config(layout="centered")
 
-# Load the trained model
+# model=tf.keras.load_model('./trained_model.h5')
 model = legacy_h5_format.load_model_from_hdf5('./trained_model.h5',custom_objects={'mse':'mse'})
 
-# Define the categorical columns and missing value placeholder
 categorical_cols = ['Purchase Type', 'Payment Method', 'Railcard', 'Ticket Class', 'Ticket Type', 
                     'Departure Station', 'Arrival Destination', 'Journey Status', 
                     'Reason for Delay', 'Refund Request']
 missing_value_placeholder = 'Missing'
 
-# Unique values for each column
 purchase_type_options = ['Online', 'Station']
 payment_method_options = ['Contactless', 'Credit Card', 'Debit Card']
 ticket_type_options = ['Advance', 'Off-Peak', 'Anytime']
@@ -38,7 +36,6 @@ reason_for_delay_options = ['Signal Failure', 'Technical Issue', 'Weather Condit
                             'Staff Shortage', 'Signal failure', 'Traffic','Missing']
 refund_request_options = ['No', 'Yes']
 
-# Function to handle missing values in categorical columns
 def handle_missing_values(df, categorical_cols, placeholder='Missing'):
     for col in categorical_cols:
         df[col] = df[col].fillna(placeholder)
@@ -46,9 +43,9 @@ def handle_missing_values(df, categorical_cols, placeholder='Missing'):
 
 
 
-# Load the trained label encoders
 label_encoders = joblib.load("./label_encoders.pkl")
-# Function to safely fit and transform categorical columns (use label encoders that were saved with the model)
+
+
 def safe_label_encoder(df, categorical_cols, label_encoders):
     for col in categorical_cols:
         if col in label_encoders:
@@ -69,10 +66,8 @@ st.markdown("""
 You can input data below to get a prediction from the trained model.
 """)
 
-# User input for inference using dropdowns
 st.subheader("Input Data for Inference")
 
-# Input fields for the user to enter data (using dropdowns)
 purchase_type = st.selectbox("Purchase Type", purchase_type_options)
 payment_method = st.selectbox("Payment Method", payment_method_options)
 railcard = st.selectbox("Railcard", railcard_options)
@@ -84,7 +79,6 @@ journey_status = st.selectbox("Journey Status", journey_status_options)
 reason_for_delay = st.selectbox("Reason for Delay", reason_for_delay_options)
 refund_request = st.selectbox("Refund Request", refund_request_options)
 
-# Prepare the input data for the model
 new_data = pd.DataFrame({
     'Purchase Type': [purchase_type],
     'Payment Method': [payment_method],
@@ -98,23 +92,17 @@ new_data = pd.DataFrame({
     'Refund Request': [refund_request]
 })
 
-# Handle missing values and apply label encoding
 new_data = handle_missing_values(new_data, categorical_cols, placeholder=missing_value_placeholder)
-# Apply the loaded label encoders to the input data
 new_data = safe_label_encoder(new_data, categorical_cols, label_encoders)
 
 
-# Button to trigger prediction
 predict_button = st.button("Predict")
 
 if predict_button:
 
-    # Prepare input data for the model
     input_data = [new_data[col].values for col in new_data.columns]
     
-    # Prediction using the loaded model
     prediction = model.predict(input_data)
 
-    # Show the final prediction value
     st.subheader("Predicted Price")
     st.write(f"The predicted price for this ticket is: {prediction[0][0]:.2f}")
