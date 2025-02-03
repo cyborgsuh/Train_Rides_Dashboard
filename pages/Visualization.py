@@ -7,7 +7,7 @@ import streamlit_shadcn_ui as ui
 st.set_page_config(layout="wide")
 
 
-df=pd.read_csv(r".\railway.csv")
+df=pd.read_csv(".\railway.csv")
 
 def ticket_sales_over_time(df):
     df['Date of Purchase'] = pd.to_datetime(df['Date of Purchase'])
