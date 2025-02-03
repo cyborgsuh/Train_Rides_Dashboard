@@ -10,7 +10,7 @@ from keras.src.legacy.saving import legacy_h5_format
 st.set_page_config(layout="centered")
 
 # Load the trained model
-model = model = legacy_h5_format.load_model_from_hdf5('./trained_model.h5',custom_objects={'mse':'mse'})
+model = legacy_h5_format.load_model_from_hdf5('./trained_model.h5',custom_objects={'mse':'mse'})
 
 # Define the categorical columns and missing value placeholder
 categorical_cols = ['Purchase Type', 'Payment Method', 'Railcard', 'Ticket Class', 'Ticket Type', 
