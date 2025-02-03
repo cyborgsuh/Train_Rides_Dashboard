@@ -45,7 +45,7 @@ def handle_missing_values(df, categorical_cols, placeholder='Missing'):
 
 
 # Load the trained label encoders
-label_encoders = joblib.load(r".\label_encoders.pkl")
+label_encoders = joblib.load("./label_encoders.pkl")
 # Function to safely fit and transform categorical columns (use label encoders that were saved with the model)
 def safe_label_encoder(df, categorical_cols, label_encoders):
     for col in categorical_cols:
