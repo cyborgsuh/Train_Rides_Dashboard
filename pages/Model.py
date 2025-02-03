@@ -8,7 +8,7 @@ import joblib
 st.set_page_config(layout="centered")
 
 # Load the trained model
-model = tf.keras.models.load_model('.\trained_model.h5')
+model = tf.keras.models.load_model('./trained_model.h5')
 
 # Define the categorical columns and missing value placeholder
 categorical_cols = ['Purchase Type', 'Payment Method', 'Railcard', 'Ticket Class', 'Ticket Type', 
