@@ -4,11 +4,13 @@ import pandas as pd
 import tensorflow as tf
 from sklearn.preprocessing import LabelEncoder
 import joblib
+from keras.src.legacy.saving import legacy_h5_format
+
 
 st.set_page_config(layout="centered")
 
 # Load the trained model
-model = tf.keras.models.load_model('./trained_model.h5')
+model = model = legacy_h5_format.load_model_from_hdf5('./trained_model.h5',custom_objects={'mae','mse'})
 
 # Define the categorical columns and missing value placeholder
 categorical_cols = ['Purchase Type', 'Payment Method', 'Railcard', 'Ticket Class', 'Ticket Type', 
