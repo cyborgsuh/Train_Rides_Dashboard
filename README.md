@@ -1,7 +1,7 @@
 # Train Ticket Price Prediction 🚆💰
 
 ## Overview
-This project is a **Train Ticket Price Prediction App** built using **TensorFlow** and **Streamlit**. The app allows users to predict ticket prices based on various input features, leveraging a trained neural network. The project also includes data preprocessing with **Label Encoding** for categorical variables.
+This project is a **Train Ticket Price Prediction App** built using **TensorFlow/Keras** for Neural Network and **Streamlit** for UI, and **Plotly** for visualization. The app allows users to predict ticket prices based on various input features, leveraging a trained neural network with an embedding layer for categorical features. 
 
 ## Features ✨
 - **Interactive Web Interface**: Built with Streamlit for easy access.
@@ -46,7 +46,7 @@ The dataset includes:
 2. **Neural Network**: Trained with **Embedding Layers** for categorical features.
 
 ## Deployment 🌍
-The app is deployed on **Streamlit Cloud**. You can access it [here](YOUR_DEPLOYMENT_LINK).
+The app is deployed on **Streamlit Cloud**. You can access it [here](https://train-rides-dashboard.streamlit.app/).
 
 ## Contributions 🤝
 Feel free to fork and contribute! Create a pull request with your improvements.
